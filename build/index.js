@@ -23,7 +23,7 @@ io.on("connection", (socket) => {
         console.log("user disconnected");
     });
     socket.on("hi", (data) => {
-        console.log(data);
+        socket.emit("hello", data);
     });
 });
 server.listen(port, () => {
