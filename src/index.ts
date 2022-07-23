@@ -11,7 +11,12 @@ app.use(cors);
 const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
-		origin: "*",
+		origin: [
+			"http://localhost:3000",
+			"https://mtype.vercel.app",
+			"https://monkeytype-clone.vercel.app",
+			"https://typez.vercel.app",
+		],
 		methods: ["GET", "POST"],
 	},
 });
