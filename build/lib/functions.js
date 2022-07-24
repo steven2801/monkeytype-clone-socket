@@ -40,11 +40,9 @@ const shuffleList = (type) => {
         case "numbers":
             return _.shuffle(numbers).slice(0, 20);
         case "sentences":
-            // eslint-disable-next-line no-case-declarations
-            // let sentencesArray = _.shuffle(sentences);
-            // sentencesArray = sentencesArray.slice(0, 1);
-            // return sentencesArray;
-            return ["I am groot."];
+            let sentencesArray = _.shuffle(sentences);
+            sentencesArray = sentencesArray.slice(0, 2);
+            return sentencesArray;
         default:
             return _.shuffle(words);
     }
