@@ -88,6 +88,7 @@ io.on("connection", (socket) => {
 
 	socket.on("room update", (user: Player) => {
 		const { roomId } = user;
+		if (!rooms[roomId]) return;
 		const players = rooms[roomId].players;
 		rooms[roomId].players = players.map((player) => (player.id !== user.id ? player : user));
 		io.in(roomId).emit("room update", rooms[roomId].players);
@@ -95,10 +96,11 @@ io.on("connection", (socket) => {
 
 	socket.on("leave room", (user: Player) => {
 		const { roomId } = user;
-		if (!roomId) return;
-		rooms[roomId].players = rooms[roomId].players.filter((player) => {
+		const players = rooms[roomId];
+		if (!players) return;
+		rooms[roomId].players = players.players.filter((player) => {
 			if (player.id === user.id) {
-				io.in(roomId).emit("leave room", player.username);
+				socket.to(roomId).emit("leave room", player.username);
 			}
 			return player.id !== user.id;
 		});
@@ -116,11 +118,8 @@ io.on("connection", (socket) => {
 
 		const room = rooms[roomId];
 		if (!room) {
-			const toType = shuffleList("sentences").join(" ");
-			rooms[roomId] = {
-				players: [user],
-				toType,
-			};
+			socket.emit("room invalid");
+			return;
 		} else {
 			rooms[roomId].players = [...rooms[roomId].players, user];
 		}

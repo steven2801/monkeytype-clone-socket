@@ -22,7 +22,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.shuffleList = void 0;
 const numbers = __importStar(require("../data/numbers.json"));
 const words = __importStar(require("../data/words.json"));
-const sentences = __importStar(require("../data/sentences.json"));
+const sentences = [
+    "Sarah and Ira drove to the store.",
+    "The ham, green beans, mashed potatoes, and corn are gluten-free.",
+    "My mother hemmed and hawed over where to go for dinner.",
+    "The mangy, scrawny stray dog hurriedly gobbled down the grain-free, organic dog food.",
+    "I quickly put on my red winter jacket, black snow pants, waterproof boots, homemade mittens, and handknit scarf.",
+    "The incessant ticking and chiming echoed off the weathered walls of the clock repair shop.",
+    "Nervously, I unfolded the wrinkled and stained letter from my long-dead ancestor.",
+    "Into the suitcase, I carelessly threw a pair of ripped jeans, my favorite sweater from high school, an old pair of tube socks with stripes, and $20,000 in cash.",
+];
 const _ = require("lodash");
 const shuffleList = (type) => {
     switch (type) {
@@ -33,7 +42,7 @@ const shuffleList = (type) => {
         case "sentences":
             // eslint-disable-next-line no-case-declarations
             let sentencesArray = _.shuffle(sentences);
-            sentencesArray = sentencesArray.slice(0, 2).join(" ").split(" ");
+            sentencesArray = sentencesArray.slice(0, 2);
             return sentencesArray;
         default:
             return _.shuffle(words);

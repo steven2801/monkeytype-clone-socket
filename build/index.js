@@ -14,7 +14,12 @@ app.use(cors_1.default);
 const server = http_1.default.createServer(app);
 const io = new socket_io_1.Server(server, {
     cors: {
-        origin: "*",
+        origin: [
+            "http://localhost:3000",
+            "https://mtype.vercel.app",
+            "https://monkeytype-clone.vercel.app",
+            "https://typez.vercel.app",
+        ],
         methods: ["GET", "POST"],
     },
 });
@@ -56,17 +61,20 @@ io.on("connection", (socket) => {
     });
     socket.on("room update", (user) => {
         const { roomId } = user;
+        if (!rooms[roomId])
+            return;
         const players = rooms[roomId].players;
         rooms[roomId].players = players.map((player) => (player.id !== user.id ? player : user));
         io.in(roomId).emit("room update", rooms[roomId].players);
     });
     socket.on("leave room", (user) => {
         const { roomId } = user;
-        if (!roomId)
+        const players = rooms[roomId];
+        if (!players)
             return;
-        rooms[roomId].players = rooms[roomId].players.filter((player) => {
+        rooms[roomId].players = players.players.filter((player) => {
             if (player.id === user.id) {
-                io.in(roomId).emit("leave room", player.username);
+                socket.to(roomId).emit("leave room", player.username);
             }
             return player.id !== user.id;
         });
@@ -81,11 +89,8 @@ io.on("connection", (socket) => {
         playerRooms[socket.id] = [roomId];
         const room = rooms[roomId];
         if (!room) {
-            const toType = (0, functions_1.shuffleList)("sentences").join(" ");
-            rooms[roomId] = {
-                players: [user],
-                toType,
-            };
+            socket.emit("room invalid");
+            return;
         }
         else {
             rooms[roomId].players = [...rooms[roomId].players, user];
