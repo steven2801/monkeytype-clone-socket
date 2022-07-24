@@ -84,6 +84,7 @@ io.on("connection", (socket) => {
         rooms[roomId].players = players.players.filter((player) => {
             if (player.id === user.id) {
                 socket.to(roomId).emit("leave room", player.username);
+                socket.emit("end game");
             }
             return player.id !== user.id;
         });
