@@ -25,6 +25,7 @@ export const shuffleList = (type: string) => {
 			let sentencesArray = _.shuffle(sentences);
 			sentencesArray = sentencesArray.slice(0, 2);
 			return sentencesArray;
+		// return ["I am groot."];
 		default:
 			return _.shuffle(words);
 	}

@@ -66,6 +66,15 @@ io.on("connection", (socket) => {
         const players = rooms[roomId].players;
         rooms[roomId].players = players.map((player) => (player.id !== user.id ? player : user));
         io.in(roomId).emit("room update", rooms[roomId].players);
+        // start game
+        const allPlayersReady = rooms[roomId].players.every((player) => player.isReady);
+        if (allPlayersReady) {
+            io.in(roomId).emit("start game");
+            rooms[roomId].inGame = true;
+        }
+        else {
+            rooms[roomId].inGame = false;
+        }
     });
     socket.on("leave room", (user) => {
         const { roomId } = user;
@@ -84,17 +93,36 @@ io.on("connection", (socket) => {
         }
         console.log("leave ", rooms);
     });
+    socket.on("end game", (roomId) => {
+        const toType = (0, functions_1.shuffleList)("sentences").join(" ");
+        rooms[roomId] = {
+            players: rooms[roomId].players,
+            toType,
+            inGame: false,
+            winner: socket.id,
+        };
+        console.log("game ended");
+        io.in(roomId).emit("winner", rooms[roomId].winner);
+        setTimeout(() => {
+            io.in(roomId).emit("end game");
+            io.in(roomId).emit("words generated", rooms[roomId].toType);
+        }, 5000);
+    });
     socket.on("join room", ({ roomId, user }) => {
-        socket.join(roomId);
-        playerRooms[socket.id] = [roomId];
         const room = rooms[roomId];
         if (!room) {
             socket.emit("room invalid");
             return;
         }
+        else if (rooms[roomId].inGame) {
+            socket.emit("room in game");
+            return;
+        }
         else {
             rooms[roomId].players = [...rooms[roomId].players, user];
+            playerRooms[socket.id] = [roomId];
         }
+        socket.join(roomId);
         socket.emit("words generated", rooms[roomId].toType);
         io.in(roomId).emit("room update", rooms[roomId].players);
         socket.to(roomId).emit("notify", `${user.username} is here.`);
@@ -109,6 +137,8 @@ io.on("connection", (socket) => {
             rooms[roomId] = {
                 players: [],
                 toType,
+                inGame: false,
+                winner: null,
             };
             socket.emit("words generated", rooms[roomId].toType);
             socket.emit("create room success", roomId);
