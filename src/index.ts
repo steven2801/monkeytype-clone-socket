@@ -113,7 +113,6 @@ io.on("connection", (socket) => {
 		rooms[roomId].players = players.players.filter((player) => {
 			if (player.id === user.id) {
 				socket.to(roomId).emit("leave room", player.username);
-				socket.emit("end game");
 			}
 			return player.id !== user.id;
 		});
@@ -155,6 +154,7 @@ io.on("connection", (socket) => {
 		}
 
 		socket.join(roomId);
+		socket.emit("end game");
 		socket.emit("words generated", rooms[roomId].toType);
 		io.in(roomId).emit("room update", rooms[roomId].players);
 		socket.to(roomId).emit("notify", `${user.username} is here.`);
