@@ -34,6 +34,10 @@ exports.io.on("connection", (socket) => {
     // console.log(io.sockets.adapter.rooms);
     // console.log(sockets);
     // console.log(socket.rooms);
+    // chath handlers
+    socket.on("send chat", ({ username, value, roomId, id }) => {
+        exports.io.to(roomId).emit("receive chat", { username, value, id });
+    });
     // handle user disconnect
     (0, disconnectHandler_1.disconnectHandler)(socket);
     // handle end game

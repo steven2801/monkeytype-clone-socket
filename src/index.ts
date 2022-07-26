@@ -3,7 +3,7 @@ import http from "http";
 import cors from "cors";
 import { Server } from "socket.io";
 import { shuffleList } from "./lib/functions";
-import { Player, PlayerState, RoomState } from "./lib/types";
+import { Player, PlayerState, RoomState, SendChat } from "./lib/types";
 import { createRoomHandler, joinRoomHander, leaveRoomHandler, updateRoomHandler } from "./lib/roomHandler";
 import { disconnectHandler } from "./lib/disconnectHandler";
 import { endGameHander } from "./lib/gameHandler";
@@ -35,6 +35,11 @@ io.on("connection", (socket) => {
 	// console.log(io.sockets.adapter.rooms);
 	// console.log(sockets);
 	// console.log(socket.rooms);
+
+	// chath handlers
+	socket.on("send chat", ({ username, value, roomId, id }: SendChat) => {
+		io.to(roomId).emit("receive chat", { username, value, id });
+	});
 
 	// handle user disconnect
 	disconnectHandler(socket);

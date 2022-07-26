@@ -22,3 +22,10 @@ export type RoomState = {
 export type PlayerState = {
 	[key: string]: string[];
 };
+
+export type SendChat = {
+	username: string;
+	id: string;
+	value: string;
+	roomId: string;
+};
