@@ -1,0 +1,35 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.disconnectHandler = void 0;
+const __1 = require("..");
+const disconnectHandler = (socket) => {
+    socket.on("disconnect", () => {
+        // disconnected client id
+        // console.log(socket.id);
+        // const sockets = Array.from(io.sockets.sockets).map((socket) => socket[0]);
+        // the rooms player is currently in
+        const disconnectPlayerFrom = __1.playerRooms[socket.id];
+        if (!disconnectPlayerFrom)
+            return;
+        disconnectPlayerFrom.forEach((roomId) => {
+            if (!__1.rooms[roomId])
+                return;
+            const players = __1.rooms[roomId].players;
+            __1.rooms[roomId].players = players.filter((player) => {
+                if (player.id === socket.id) {
+                    __1.io.in(roomId).emit("leave room", player.username);
+                }
+                return player.id !== socket.id;
+            });
+            __1.io.in(roomId).emit("room update", __1.rooms[roomId].players);
+            if (__1.rooms[roomId].players.length === 0) {
+                delete __1.rooms[roomId];
+            }
+        });
+        // remove player
+        delete __1.playerRooms[socket.id];
+        console.log("disconnect", __1.rooms);
+        // console.log(io.sockets.adapter.rooms);
+    });
+};
+exports.disconnectHandler = disconnectHandler;
