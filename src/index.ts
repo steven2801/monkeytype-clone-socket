@@ -38,7 +38,7 @@ io.on("connection", (socket) => {
 
 	// chath handlers
 	socket.on("send chat", ({ username, value, roomId, id }: SendChat) => {
-		io.to(roomId).emit("receive chat", { username, value, id });
+		io.to(roomId).emit("receive chat", { username, value, id, type: "message" });
 	});
 
 	// handle user disconnect

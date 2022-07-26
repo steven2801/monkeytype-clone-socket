@@ -65,7 +65,8 @@ const joinRoomHander = (socket) => {
         socket.emit("end game");
         socket.emit("words generated", __1.rooms[roomId].toType);
         __1.io.in(roomId).emit("room update", __1.rooms[roomId].players);
-        socket.to(roomId).emit("notify", `${user.username} is here.`);
+        // socket.to(roomId).emit("notify", `${user.username} is here.`);
+        __1.io.in(roomId).emit("receive chat", { username: user.username, value: "joined", id: user.id, type: "notification" });
         console.log("join", __1.rooms);
     });
 };
@@ -78,7 +79,8 @@ const leaveRoomHandler = (socket) => {
             return;
         __1.rooms[roomId].players = players.players.filter((player) => {
             if (player.id === user.id) {
-                socket.to(roomId).emit("leave room", player.username);
+                // socket.to(roomId).emit("leave room", player.username);
+                __1.io.in(roomId).emit("receive chat", { username: player.username, value: "left", id: player.id });
             }
             return player.id !== user.id;
         });

@@ -63,7 +63,8 @@ export const joinRoomHander = (socket: Socket) => {
 		socket.emit("end game");
 		socket.emit("words generated", rooms[roomId].toType);
 		io.in(roomId).emit("room update", rooms[roomId].players);
-		socket.to(roomId).emit("notify", `${user.username} is here.`);
+		// socket.to(roomId).emit("notify", `${user.username} is here.`);
+		io.in(roomId).emit("receive chat", { username: user.username, value: "joined", id: user.id, type: "notification" });
 		console.log("join", rooms);
 	});
 };
@@ -75,7 +76,8 @@ export const leaveRoomHandler = (socket: Socket) => {
 		if (!players) return;
 		rooms[roomId].players = players.players.filter((player) => {
 			if (player.id === user.id) {
-				socket.to(roomId).emit("leave room", player.username);
+				// socket.to(roomId).emit("leave room", player.username);
+				io.in(roomId).emit("receive chat", { username: player.username, value: "left", id: player.id });
 			}
 			return player.id !== user.id;
 		});
