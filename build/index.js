@@ -34,9 +34,11 @@ exports.io.on("connection", (socket) => {
     // console.log(io.sockets.adapter.rooms);
     // console.log(sockets);
     // console.log(socket.rooms);
-    // chath handlers
+    socket.join("public");
+    // chat handlers
     socket.on("send chat", ({ username, value, roomId, id }) => {
-        exports.io.to(roomId).emit("receive chat", { username, value, id, type: "message" });
+        console.log(roomId);
+        exports.io.to(roomId).emit("receive chat", { username, value, id, type: "message", roomId });
     });
     // handle user disconnect
     (0, disconnectHandler_1.disconnectHandler)(socket);

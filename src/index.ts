@@ -35,10 +35,12 @@ io.on("connection", (socket) => {
 	// console.log(io.sockets.adapter.rooms);
 	// console.log(sockets);
 	// console.log(socket.rooms);
+	socket.join("public");
 
-	// chath handlers
+	// chat handlers
 	socket.on("send chat", ({ username, value, roomId, id }: SendChat) => {
-		io.to(roomId).emit("receive chat", { username, value, id, type: "message" });
+		console.log(roomId);
+		io.to(roomId).emit("receive chat", { username, value, id, type: "message", roomId });
 	});
 
 	// handle user disconnect
