@@ -11,11 +11,16 @@ export const endGameHander = (socket: Socket) => {
 			inGame: false,
 			winner: socket.id,
 		};
-		console.log("game ended");
-		io.in(roomId).emit("winner", rooms[roomId].winner);
-		setTimeout(() => {
-			io.in(roomId).emit("end game");
-			io.in(roomId).emit("words generated", rooms[roomId].toType);
-		}, 5000);
+		console.log(socket.id);
+		// io.in(roomId).emit("winner", rooms[roomId].winner);
+		io.in(roomId).emit("end game", socket.id);
+	});
+};
+
+export const startGameHander = (socket: Socket) => {
+	socket.on("start game", (roomId: string) => {
+		io.in(roomId).emit("words generated", rooms[roomId].toType);
+		io.in(roomId).emit("start game");
+		rooms[roomId].inGame = true;
 	});
 };

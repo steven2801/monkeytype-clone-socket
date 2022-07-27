@@ -545,6 +545,7 @@ const shuffleList = (type) => {
             let wordsArray = _.shuffle(words);
             wordsArray = wordsArray.slice(0, 30);
             return wordsArray;
+        // return ["ok"];
         case "numbers":
             let numbersArray = _.shuffle(numbers);
             numbersArray = numbersArray.slice(0, 15);

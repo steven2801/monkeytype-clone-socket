@@ -49,7 +49,8 @@ exports.io.on("connection", (socket) => {
     });
     // handle user disconnect
     (0, disconnectHandler_1.disconnectHandler)(socket);
-    // handle end game
+    // game handlers
+    (0, gameHandler_1.startGameHander)(socket);
     (0, gameHandler_1.endGameHander)(socket);
     // room handlers
     (0, roomHandler_1.joinRoomHander)(socket);

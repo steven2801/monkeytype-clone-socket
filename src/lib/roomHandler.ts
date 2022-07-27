@@ -35,13 +35,13 @@ export const updateRoomHandler = (socket: Socket) => {
 		io.in(roomId).emit("room update", rooms[roomId].players);
 
 		// start game
-		const allPlayersReady = rooms[roomId].players.every((player) => player.isReady);
-		if (allPlayersReady) {
-			io.in(roomId).emit("start game");
-			rooms[roomId].inGame = true;
-		} else {
-			rooms[roomId].inGame = false;
-		}
+		// const allPlayersReady = rooms[roomId].players.every((player) => player.isReady);
+		// if (allPlayersReady) {
+		// 	io.in(roomId).emit("start game");
+		// 	rooms[roomId].inGame = true;
+		// } else {
+		// 	rooms[roomId].inGame = false;
+		// }
 	});
 };
 

@@ -5,7 +5,7 @@ import { Server } from "socket.io";
 import { PlayerState, RoomState, SendChat } from "./lib/types";
 import { createRoomHandler, joinRoomHander, leaveRoomHandler, updateRoomHandler } from "./lib/roomHandler";
 import { disconnectHandler } from "./lib/disconnectHandler";
-import { endGameHander } from "./lib/gameHandler";
+import { endGameHander, startGameHander } from "./lib/gameHandler";
 
 const port = process.env.PORT || 8080;
 const app = express();
@@ -53,7 +53,8 @@ io.on("connection", (socket) => {
 	// handle user disconnect
 	disconnectHandler(socket);
 
-	// handle end game
+	// game handlers
+	startGameHander(socket);
 	endGameHander(socket);
 
 	// room handlers

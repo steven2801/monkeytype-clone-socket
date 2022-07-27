@@ -35,14 +35,13 @@ const updateRoomHandler = (socket) => {
         __1.rooms[roomId].players = players.map((player) => (player.id !== user.id ? player : user));
         __1.io.in(roomId).emit("room update", __1.rooms[roomId].players);
         // start game
-        const allPlayersReady = __1.rooms[roomId].players.every((player) => player.isReady);
-        if (allPlayersReady) {
-            __1.io.in(roomId).emit("start game");
-            __1.rooms[roomId].inGame = true;
-        }
-        else {
-            __1.rooms[roomId].inGame = false;
-        }
+        // const allPlayersReady = rooms[roomId].players.every((player) => player.isReady);
+        // if (allPlayersReady) {
+        // 	io.in(roomId).emit("start game");
+        // 	rooms[roomId].inGame = true;
+        // } else {
+        // 	rooms[roomId].inGame = false;
+        // }
     });
 };
 exports.updateRoomHandler = updateRoomHandler;
