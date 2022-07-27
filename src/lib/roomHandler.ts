@@ -4,11 +4,11 @@ import { shuffleList } from "./functions";
 import { Player } from "./types";
 
 export const createRoomHandler = (socket: Socket) => {
-	socket.on("create room", (roomId: string) => {
+	socket.on("create room", (roomId: string, mode: "words" | "sentences" | "numbers") => {
 		if (io.sockets.adapter.rooms.get(roomId)) {
 			socket.emit("room already exist");
 		} else {
-			const toType = shuffleList("sentences").join(" ");
+			const toType = shuffleList(mode).join(" ");
 			rooms[roomId] = {
 				players: [],
 				toType,

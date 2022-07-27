@@ -4,12 +4,12 @@ exports.leaveRoomHandler = exports.joinRoomHander = exports.updateRoomHandler = 
 const __1 = require("..");
 const functions_1 = require("./functions");
 const createRoomHandler = (socket) => {
-    socket.on("create room", (roomId) => {
+    socket.on("create room", (roomId, mode) => {
         if (__1.io.sockets.adapter.rooms.get(roomId)) {
             socket.emit("room already exist");
         }
         else {
-            const toType = (0, functions_1.shuffleList)("sentences").join(" ");
+            const toType = (0, functions_1.shuffleList)(mode).join(" ");
             __1.rooms[roomId] = {
                 players: [],
                 toType,

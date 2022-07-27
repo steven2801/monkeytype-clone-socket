@@ -4,8 +4,8 @@ exports.endGameHander = void 0;
 const __1 = require("..");
 const functions_1 = require("./functions");
 const endGameHander = (socket) => {
-    socket.on("end game", (roomId) => {
-        const toType = (0, functions_1.shuffleList)("sentences").join(" ");
+    socket.on("end game", (roomId, mode) => {
+        const toType = (0, functions_1.shuffleList)(mode).join(" ");
         __1.rooms[roomId] = {
             players: __1.rooms[roomId].players,
             toType,

@@ -3,8 +3,8 @@ import { io, rooms } from "..";
 import { shuffleList } from "./functions";
 
 export const endGameHander = (socket: Socket) => {
-	socket.on("end game", (roomId: string) => {
-		const toType = shuffleList("sentences").join(" ");
+	socket.on("end game", (roomId: string, mode: "words" | "sentences" | "numbers") => {
+		const toType = shuffleList(mode).join(" ");
 		rooms[roomId] = {
 			players: rooms[roomId].players,
 			toType,
