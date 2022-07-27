@@ -5,7 +5,8 @@ export const disconnectHandler = (socket: Socket) => {
 	socket.on("disconnect", () => {
 		// disconnected client id
 		// console.log(socket.id);
-		// const sockets = Array.from(io.sockets.sockets).map((socket) => socket[0]);
+		const sockets = Array.from(io.sockets.sockets).map((socket) => socket[0]);
+		io.to("public").emit("online users", sockets.length);
 
 		// the rooms player is currently in
 		const disconnectPlayerFrom = playerRooms[socket.id];

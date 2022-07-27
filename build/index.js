@@ -30,11 +30,13 @@ exports.playerRooms = {};
 // rooms will consist of key value pair, key being room id, pair being users inside that room and their corresponding data
 exports.rooms = {};
 exports.io.on("connection", (socket) => {
-    // const sockets = Array.from(io.sockets.sockets).map((socket) => socket[0]);
     // console.log(io.sockets.adapter.rooms);
     // console.log(sockets);
     // console.log(socket.rooms);
+    // console.log("connected");
     socket.join("public");
+    const sockets = Array.from(exports.io.sockets.sockets).map((socket) => socket[0]);
+    exports.io.to("public").emit("online users", sockets.length);
     // chat handlers
     socket.on("send chat", ({ username, value, roomId, id }) => {
         console.log(roomId);

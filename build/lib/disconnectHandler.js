@@ -6,7 +6,8 @@ const disconnectHandler = (socket) => {
     socket.on("disconnect", () => {
         // disconnected client id
         // console.log(socket.id);
-        // const sockets = Array.from(io.sockets.sockets).map((socket) => socket[0]);
+        const sockets = Array.from(__1.io.sockets.sockets).map((socket) => socket[0]);
+        __1.io.to("public").emit("online users", sockets.length);
         // the rooms player is currently in
         const disconnectPlayerFrom = __1.playerRooms[socket.id];
         if (!disconnectPlayerFrom)

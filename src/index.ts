@@ -31,11 +31,13 @@ export const playerRooms: PlayerState = {};
 export const rooms: RoomState = {};
 
 io.on("connection", (socket) => {
-	// const sockets = Array.from(io.sockets.sockets).map((socket) => socket[0]);
 	// console.log(io.sockets.adapter.rooms);
 	// console.log(sockets);
 	// console.log(socket.rooms);
+	// console.log("connected");
 	socket.join("public");
+	const sockets = Array.from(io.sockets.sockets).map((socket) => socket[0]);
+	io.to("public").emit("online users", sockets.length);
 
 	// chat handlers
 	socket.on("send chat", ({ username, value, roomId, id }: SendChat) => {
