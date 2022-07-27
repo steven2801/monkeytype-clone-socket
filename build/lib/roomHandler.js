@@ -48,6 +48,7 @@ const updateRoomHandler = (socket) => {
 exports.updateRoomHandler = updateRoomHandler;
 const joinRoomHander = (socket) => {
     socket.on("join room", ({ roomId, user }) => {
+        socket.emit("end game");
         const room = __1.rooms[roomId];
         if (!room) {
             socket.emit("room invalid");
@@ -62,7 +63,6 @@ const joinRoomHander = (socket) => {
             __1.playerRooms[socket.id] = [roomId];
         }
         socket.join(roomId);
-        socket.emit("end game");
         socket.emit("words generated", __1.rooms[roomId].toType);
         __1.io.in(roomId).emit("room update", __1.rooms[roomId].players);
         // socket.to(roomId).emit("notify", `${user.username} is here.`);
