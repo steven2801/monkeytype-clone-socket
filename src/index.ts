@@ -39,6 +39,12 @@ io.on("connection", (socket) => {
 	const sockets = Array.from(io.sockets.sockets).map((socket) => socket[0]);
 	io.to("public").emit("online users", sockets.length);
 
+	// send online users
+	socket.on("get online users", () => {
+		const sockets = Array.from(io.sockets.sockets).map((socket) => socket[0]);
+		io.to("public").emit("online users", sockets.length);
+	});
+
 	// chat handlers
 	socket.on("send chat", ({ username, value, roomId, id }: SendChat) => {
 		console.log(roomId);

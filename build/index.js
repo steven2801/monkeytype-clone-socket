@@ -37,6 +37,11 @@ exports.io.on("connection", (socket) => {
     socket.join("public");
     const sockets = Array.from(exports.io.sockets.sockets).map((socket) => socket[0]);
     exports.io.to("public").emit("online users", sockets.length);
+    // send online users
+    socket.on("get online users", () => {
+        const sockets = Array.from(exports.io.sockets.sockets).map((socket) => socket[0]);
+        exports.io.to("public").emit("online users", sockets.length);
+    });
     // chat handlers
     socket.on("send chat", ({ username, value, roomId, id }) => {
         console.log(roomId);
