@@ -65,7 +65,7 @@ export const joinRoomHander = (socket: Socket) => {
 		io.in(roomId).emit("room update", rooms[roomId].players);
 		// socket.to(roomId).emit("notify", `${user.username} is here.`);
 		io.in(roomId).emit("receive chat", { username: user.username, value: "joined", id: user.id, type: "notification" });
-		console.log("join", rooms);
+		// console.log("join", rooms);
 	});
 };
 
@@ -86,6 +86,6 @@ export const leaveRoomHandler = (socket: Socket) => {
 		if (rooms[roomId].players.length === 0) {
 			delete rooms[roomId];
 		}
-		console.log("leave ", rooms);
+		// console.log("leave ", rooms);
 	});
 };

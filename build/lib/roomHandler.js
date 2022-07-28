@@ -66,7 +66,7 @@ const joinRoomHander = (socket) => {
         __1.io.in(roomId).emit("room update", __1.rooms[roomId].players);
         // socket.to(roomId).emit("notify", `${user.username} is here.`);
         __1.io.in(roomId).emit("receive chat", { username: user.username, value: "joined", id: user.id, type: "notification" });
-        console.log("join", __1.rooms);
+        // console.log("join", rooms);
     });
 };
 exports.joinRoomHander = joinRoomHander;
@@ -87,7 +87,7 @@ const leaveRoomHandler = (socket) => {
         if (__1.rooms[roomId].players.length === 0) {
             delete __1.rooms[roomId];
         }
-        console.log("leave ", __1.rooms);
+        // console.log("leave ", rooms);
     });
 };
 exports.leaveRoomHandler = leaveRoomHandler;

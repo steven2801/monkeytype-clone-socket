@@ -11,7 +11,7 @@ export const endGameHander = (socket: Socket) => {
 			inGame: false,
 			winner: socket.id,
 		};
-		console.log(socket.id);
+		// console.log(socket.id);
 		// io.in(roomId).emit("winner", rooms[roomId].winner);
 		io.in(roomId).emit("end game", socket.id);
 	});

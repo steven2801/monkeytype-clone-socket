@@ -5,7 +5,7 @@ const __1 = require("..");
 const disconnectHandler = (socket) => {
     socket.on("disconnect", () => {
         // disconnected client id
-        // console.log(socket.id);
+        // console.log("disconnected");
         const sockets = Array.from(__1.io.sockets.sockets).map((socket) => socket[0]);
         __1.io.to("public").emit("online users", sockets.length);
         // the rooms player is currently in
@@ -30,7 +30,7 @@ const disconnectHandler = (socket) => {
         });
         // remove player
         delete __1.playerRooms[socket.id];
-        console.log("disconnect", __1.rooms);
+        // console.log("disconnect", rooms);
         // console.log(io.sockets.adapter.rooms);
     });
 };

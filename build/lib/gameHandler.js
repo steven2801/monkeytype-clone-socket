@@ -12,7 +12,7 @@ const endGameHander = (socket) => {
             inGame: false,
             winner: socket.id,
         };
-        console.log(socket.id);
+        // console.log(socket.id);
         // io.in(roomId).emit("winner", rooms[roomId].winner);
         __1.io.in(roomId).emit("end game", socket.id);
     });
